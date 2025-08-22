@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        html{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            background-color: black;
+            font-family: sans-serif;
+            font-weight: 700;
+            color: aliceblue;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border: solid 0.2rem;
+            width: 50%;
+            height: 85%;
+            border-radius: 2rem;
+            animation: glow 2s linear infinite;
+        }
+        .light-theme{
+            background-color: aliceblue;
+            font-family: sans-serif;
+            font-weight: 700;
+            color: black;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border: solid 0.2rem;
+            width: 50%;
+            height: 85%;
+            border-radius: 2rem;
+            animation: glow 2s linear infinite;
+        }
+        @keyframes glow {
+          0%   { box-shadow: 0 0 2rem orangered; }
+          50%  { box-shadow: 0 0 2rem yellow; }
+          100% { box-shadow: 0 0 2rem orangered; }
+        }
+        #screen{
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            align-items: center;
+            width: 40%;
+            height: 85%;
+        }
+        #display{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: solid 0.1rem;
+            width: 85%;
+            height: 30%;
+            border-radius: 2rem;
+        }
+        #display3{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            border: solid 0.1rem;
+            width: 85%;
+            height: 30%;
+            border-radius: 2rem;
+        }
+        #display4{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            border: solid 0.1rem;
+            width: 85%;
+            height: 30%;
+            border-radius: 2rem;
+        }
+        #display:hover{
+            scale: 0.98;
+            cursor: pointer;
+        }
+        #display3:hover{
+            scale: 0.98;
+            cursor: pointer;
+        }
+        #display4:hover{
+            scale: 0.98;
+            cursor: pointer;
+        }
+        #buttons{
+            display: grid;
+            justify-content: space-around;
+            align-items: center;
+            border: solid 0.1rem;
+            width: 40%;
+            height: 85%;
+            border-radius: 2rem;
+        }
+        #stone{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border: solid 0.1rem;
+            width: auto;
+            height: auto;
+            padding: .5rem;
+            border-radius: 1rem;
+            font-size: larger;
+        }
+        #stone:hover{
+            color: black;
+            background-color: aliceblue;
+            cursor: pointer;
+        }
+        #paper{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border: solid 0.1rem;
+            width: auto;
+            height: auto;
+            padding: .5rem;
+            border-radius: 1rem;
+            font-size: larger;
+        }
+        #paper:hover{
+            color: black;
+            background-color: aliceblue;
+            cursor: pointer;
+        }
+        #scissor{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border: solid 0.1rem;
+            width: auto;
+            height: auto;
+            padding: .5rem;
+            border-radius: 1rem;
+            font-size: larger;
+        }
+        #scissor:hover{
+            color: black;
+            background-color: aliceblue;
+            cursor: pointer;
+        }
+        #toggle{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            border: solid 0.1rem;
+            width: auto;
+            height: auto;
+            padding: .5rem;
+            border-radius: 1rem;
+            font-size: larger;
+        }
+        #toggle:hover{
+            color: black;
+            background-color: aliceblue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="screen">
+        <div id="display">
+            START
+        </div>
+        <div id="display3">
+            <div id="display1">
+                Player :
+            </div>
+            <div id="display2">
+                Computer :
+            </div>
+        </div>
+        <div id="display4">
+            <div id="display41">
+                Playerscore : 
+            </div>
+            <div id="display42">
+                computerscore : 
+            </div>
+        </div>
+    </div>
+
+    <div id="buttons">
+        <div id="toggle">Change Theme</div>
+        <div id="stone">Stone</div>
+        <div id="paper">Paper</div>
+        <div id="scissor">Scissor</div>
+    </div>
+</body>
+
+<script>
+    const body = document.body;
+    const toggle = document.getElementById("toggle");
+    toggle.addEventListener("click", function(){
+        body.classList.toggle("light-theme");
+    })
+
+    const stone = document.getElementById("stone");
+    const paper = document.getElementById("paper");
+    const scissor = document.getElementById("scissor");
+
+    const display1 = document.getElementById("display1");
+    const display2 = document.getElementById("display2");
+
+    let playerscore = parseInt(localStorage.getItem("playerscore"));
+    let computerscore = parseInt(localStorage.getItem("computerscore"));
+
+    const moves = [
+        "stone",
+        "paper",
+        "scissor"
+    ];
+
+    function game(playermove){
+        let computermove = moves[Math.floor(Math.random() * moves.length)];
+
+        display1.textContent = `Computer : ${computermove}`;
+        display2.textContent = `Player : ${playermove}`;
+
+        if(playermove == computermove){
+            display.textContent = `DRAW`;
+            
+        }
+        else if(playermove == "stone" && computermove == "scissor") {
+            display.textContent = `YOU WON`;
+            playerscore++;
+            display41.textContent = `Playerscore : ${playerscore}`;
+            localStorage.setItem("playerscore", playerscore);
+        }
+
+        else if(playermove == "paper" && computermove == "stone"){
+            display.textContent = `YOU WON`;
+            playerscore++;
+            display41.textContent = `Playerscore : ${playerscore}`;
+            localStorage.setItem("playerscore", playerscore);
+        }
+
+        else if(playermove == "scissor" && computermove == "paper"){
+            display.textContent = `YOU WON`;
+            playerscore++;
+            display41.textContent = `Playerscore : ${playerscore}`;
+            localStorage.setItem("playerscore", playerscore);
+        }
+
+        else{
+            display.textContent = `COMPUTER WON`;
+            computerscore++;
+            display42.textContent = `Computerscore : ${computerscore}`;
+            localStorage.setItem("computerscore", computerscore);
+        }
+    }
+
+    const display = document.getElementById("display");
+    stone.addEventListener("click", function(){
+        game("stone");
+    });
+    paper.addEventListener("click", function(){
+        game("paper");
+    });
+    scissor.addEventListener("click", function(){
+        game("scissor");
+    });
+
+</script>
+</html>
